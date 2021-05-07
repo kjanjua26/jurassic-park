@@ -83,7 +83,7 @@ for ix, alphabet in enumerate(alphabets):
     jr = JurassicPark(alphabet)
     dinos = jr.get_dino_data_per_url()
     
-    for dino in dinos:
+    for jx, dino in enumerate(dinos):
         name = dino["name"].replace(',', '')
         diet = dino["diet"].replace(',', '')
         period = dino["period"].replace(',', '')
@@ -93,7 +93,17 @@ for ix, alphabet in enumerate(alphabets):
         taxonomy = dino["taxonomy"].replace(',', '')
         named_by = dino["named_by"].replace(',', '')
         species = dino["species"].replace(',', '')
-        
+        print(jx)
+        print(name)
+        print(diet)
+        print(period)
+        print(lived_in)
+        print(typ)
+        print(length)
+        print(taxonomy)
+        print(named_by)
+        print(species)
+        print("="*50)
         data_file.write(name + ',' + diet + ',' + period + ','
                 + lived_in + ',' + typ + ',' + length + ',' + 
                 taxonomy + ',' + named_by + ',' + species)
