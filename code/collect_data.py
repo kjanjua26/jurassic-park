@@ -4,6 +4,7 @@ We collect the dataset containing the information about the dinosaurs (A - Z) fr
 import string
 import requests, re
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 
 base_url = "https://www.nhm.ac.uk/discover/dino-directory/name/{}/gallery.html"
 alphabets = list(string.ascii_lowercase)
@@ -42,6 +43,7 @@ class JurassicPark:
             
             diet_data = []
             taxonomy_data = []
+            typ_length_data = []
 
             soup = self.read_a_page(dino)
 
@@ -53,12 +55,18 @@ class JurassicPark:
             type_ = str(type_length).split('<dd>')[-2].split('.html">')[-1].split('</a>')[0].strip()
             length = str(type_length).split('<dd>')[-1].split('</dd>')[0].strip()
 
+            for vals in str(type_length).split('<dd>'):
+                lines = vals.split('">')[-1].split('</dd>')[0].split('</a>')[0].strip()
+                if not bool(BeautifulSoup(lines, "html.parser").find()):
+                    if 'kg' not in lines:
+                        typ_length_data.append(lines)
+
             for vals in str(diet).split('<dd>'):
                 lines = vals.split('">')[-1].split('</a>')[0]
                 period = vals.split('">')[-1].split(', ')[-1].split('</dd>')[0]
                 if not bool(BeautifulSoup(lines, "html.parser").find()):
                     if lines not in period:
-                        lines = lines + ' ' + period    
+                        lines = lines + ' ' + period
                     diet_data.append(lines)
 
             for vals in str(taxonomy).split('<dd>'):
@@ -70,8 +78,8 @@ class JurassicPark:
             dino_data["diet"] = diet_data[0]
             dino_data["period"] = diet_data[1]
             dino_data["lived_in"] = diet_data[2]
-            dino_data["type"] = type_
-            dino_data["length"] = length
+            dino_data["type"] = typ_length_data[0]
+            dino_data["length"] = typ_length_data[1]
             dino_data["taxonomy"] = taxonomy_data[0]
             dino_data["named_by"] = taxonomy_data[1]
             dino_data["species"] = taxonomy_data[2]
@@ -79,7 +87,7 @@ class JurassicPark:
 
         return dinos
 
-for ix, alphabet in enumerate(alphabets):
+for ix, alphabet in tqdm(enumerate(alphabets)):
     jr = JurassicPark(alphabet)
     dinos = jr.get_dino_data_per_url()
     
@@ -93,17 +101,7 @@ for ix, alphabet in enumerate(alphabets):
         taxonomy = dino["taxonomy"].replace(',', '')
         named_by = dino["named_by"].replace(',', '')
         species = dino["species"].replace(',', '')
-        print(jx)
-        print(name)
-        print(diet)
-        print(period)
-        print(lived_in)
-        print(typ)
-        print(length)
-        print(taxonomy)
-        print(named_by)
-        print(species)
-        print("="*50)
+
         data_file.write(name + ',' + diet + ',' + period + ','
                 + lived_in + ',' + typ + ',' + length + ',' + 
                 taxonomy + ',' + named_by + ',' + species)
