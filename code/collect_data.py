@@ -12,7 +12,7 @@ header = {'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (
 
 data_file = open('data.csv', 'w+')
 data_file.write('name' + ',' + 'diet' + ',' + 'period' + ',' + 'lived_in' + ',' + 'type' + ',' + 'length'
-                + ',' + 'taxonomy' + ',' + 'named_by' + ',' + 'species' + '\n')
+                + ',' + 'taxonomy' + ',' + 'named_by' + ',' + 'species' + ',' + 'link' + '\n')
 
 class JurassicPark:
     def __init__(self, letter):
@@ -77,13 +77,25 @@ class JurassicPark:
             dino_data["name"] = name
             dino_data["diet"] = diet_data[0]
             dino_data["period"] = diet_data[1]
-            dino_data["lived_in"] = diet_data[2]
+            try:
+                dino_data["lived_in"] = diet_data[2]
+            except:
+                dino_data["lived_in"] = ""
             dino_data["type"] = typ_length_data[0]
-            dino_data["length"] = typ_length_data[1]
+            try:
+                dino_data["length"] = typ_length_data[1]
+            except:
+                dino_data["length"] = ""
             dino_data["taxonomy"] = taxonomy_data[0]
             dino_data["named_by"] = taxonomy_data[1]
-            dino_data["species"] = taxonomy_data[2]
+            try:
+                dino_data["species"] = taxonomy_data[2]
+            except:
+                dino_data["species"] = ""
+            dino_data['link'] = dino
             dinos.append(dino_data)
+            print(dino_data)
+            print('='*50)
 
         return dinos
 
@@ -101,10 +113,11 @@ for ix, alphabet in tqdm(enumerate(alphabets)):
         taxonomy = dino["taxonomy"].replace(',', '')
         named_by = dino["named_by"].replace(',', '')
         species = dino["species"].replace(',', '')
+        link = dino["link"].replace(',', '')
 
         data_file.write(name + ',' + diet + ',' + period + ','
                 + lived_in + ',' + typ + ',' + length + ',' + 
-                taxonomy + ',' + named_by + ',' + species)
+                taxonomy + ',' + named_by + ',' + species + ',' + link)
         data_file.write('\n')
     
-    exit()
+data_file.close()
