@@ -2,7 +2,7 @@
 <hr>
 
 # jurassic-park
-The most exhaustive dinosaur dataset containing information such as their type, diet, fossil images, etc.
+The most exhaustive dinosaur dataset containing information such as their type, diet, fossil images, etc. The dataset is taken from the National History Museum's website to combine the available information in one place.
 
 ## Version 01
 The dataset (available in the `data/data.csv` file) currently contains 10 columns. The meta-data is listed below.
@@ -18,4 +18,6 @@ The dataset (available in the `data/data.csv` file) currently contains 10 column
 9. Species - the species the dinosaur belongs to
 10. Link - the website containing the information of the dinosaur
 
+The dataset contains the information of around 300 dinosaurs (listed from A - Z).
 
+<img src="/logo/initial_data.png"/>
