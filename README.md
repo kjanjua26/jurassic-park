@@ -1,7 +1,7 @@
 <img src="/logo/logo.png"/>
 <hr>
 
-# jurassic-park
+# jurassic-park :bird:
 The most exhaustive dinosaur dataset containing information such as their type, diet, fossil images, etc. The dataset is taken from the National History Museum's website to combine the available information in one place.
 
 ## Version 01
